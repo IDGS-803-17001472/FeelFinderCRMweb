@@ -15,7 +15,7 @@ import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import ForgotPassword from './ForgotPassword';
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from './CustomIcons';
-import AppTheme from '../shared-theme/AppTheme';
+import AppTheme from '../shared-theme/AppTheme.jsx';
 import ColorModeSelect from '../shared-theme/ColorModeSelect';
 import { useState } from 'react';
 
@@ -117,7 +117,6 @@ const Login =(props) => {
 
   return (
     <AppTheme {...props}>
-      <CssBaseline enableColorScheme />
       <SignInContainer direction="column" justifyContent="space-between">
         <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
         <Card variant="outlined">
@@ -127,7 +126,7 @@ const Login =(props) => {
             variant="h4"
             sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
           >
-            Sign in
+            Iniciar Sesión
           </Typography>
           <Box
             component="form"
@@ -148,7 +147,7 @@ const Login =(props) => {
                 id="email"
                 type="email"
                 name="email"
-                placeholder="your@email.com"
+                placeholder="tu@correo.com"
                 autoComplete="email"
                 autoFocus
                 required
@@ -158,7 +157,7 @@ const Login =(props) => {
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="password">Password</FormLabel>
+              <FormLabel htmlFor="password">Contraseña</FormLabel>
               <TextField
                 error={passwordError}
                 helperText={passwordErrorMessage}
@@ -176,7 +175,7 @@ const Login =(props) => {
             </FormControl>
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              label="Recordar Credenciales"
             />
             <ForgotPassword open={open} handleClose={handleClose} />
             <Button
@@ -185,46 +184,8 @@ const Login =(props) => {
               variant="contained"
               onClick={validateInputs}
             >
-              Sign in
+              Continuar
             </Button>
-            <Link
-              component="button"
-              type="button"
-              onClick={handleClickOpen}
-              variant="body2"
-              sx={{ alignSelf: 'center' }}
-            >
-              Forgot your password?
-            </Link>
-          </Box>
-          <Divider>or</Divider>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <Button
-              fullWidth
-              variant="outlined"
-              onClick={() => alert('Sign in with Google')}
-              startIcon={<GoogleIcon />}
-            >
-              Sign in with Google
-            </Button>
-            <Button
-              fullWidth
-              variant="outlined"
-              onClick={() => alert('Sign in with Facebook')}
-              startIcon={<FacebookIcon />}
-            >
-              Sign in with Facebook
-            </Button>
-            <Typography sx={{ textAlign: 'center' }}>
-              Don&apos;t have an account?{' '}
-              <Link
-                href="/material-ui/getting-started/templates/sign-in/"
-                variant="body2"
-                sx={{ alignSelf: 'center' }}
-              >
-                Sign up
-              </Link>
-            </Typography>
           </Box>
         </Card>
       </SignInContainer>
