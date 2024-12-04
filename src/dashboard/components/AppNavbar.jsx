@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
+import { Link } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -8,6 +9,7 @@ import { tabsClasses } from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
+import Button from '@mui/material/Button'; // Botón de navegación
 import SideMenuMobile from './SideMenuMobile';
 import MenuButton from './MenuButton';
 import ColorModeIconDropdown from '../../shared-theme/ColorModeIconDropdown';
@@ -67,6 +69,11 @@ export default function AppNavbar() {
             <Typography variant="h4" component="h1" sx={{ color: 'text.primary' }}>
               Dashboard
             </Typography>
+          </Stack>
+          <Stack direction="row" spacing={2}>
+            <Button component={Link} to="/" color="inherit">
+              Inicio
+            </Button>
           </Stack>
           <ColorModeIconDropdown data-screenshot="" />
           <MenuButton aria-label="menu" onClick={toggleDrawer(true)}>

@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { useNavigate } from 'react-router-dom'; // Importar useNavigate
 import { styled } from '@mui/material/styles';
-import  { dividerClasses } from '@mui/material/Divider';
+import Divider, { dividerClasses } from '@mui/material/Divider';
 import Menu from '@mui/material/Menu';
 import MuiMenuItem from '@mui/material/MenuItem';
 import { paperClasses } from '@mui/material/Paper';
@@ -19,21 +18,12 @@ const MenuItem = styled(MuiMenuItem)({
 export default function OptionsMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const navigate = useNavigate(); // Hook para navegar
-
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const handleLogout = () => {
-    localStorage.clear(); // Limpia todo el localStorage
-    navigate('/'); // Redirige a la ruta '/'
-  };
-
   return (
     <React.Fragment>
       <MenuButton
@@ -63,8 +53,14 @@ export default function OptionsMenu() {
           },
         }}
       >
+        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <Divider />
+        <MenuItem onClick={handleClose}>Add another account</MenuItem>
+        <MenuItem onClick={handleClose}>Settings</MenuItem>
+        <Divider />
         <MenuItem
-          onClick={handleLogout} // Llama a handleLogout al hacer clic
+          onClick={handleClose}
           sx={{
             [`& .${listItemIconClasses.root}`]: {
               ml: 'auto',

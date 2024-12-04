@@ -25,6 +25,17 @@ const Drawer = styled(MuiDrawer)({
 });
 
 export default function SideMenu() {
+
+  const [email, setEmail] = React.useState(null);
+
+  React.useEffect(() => {
+    // Leer el valor de 'user' desde localStorage y establecer el estado
+    const user = localStorage.getItem('user');
+    
+      setEmail(user); // Establecer el email en el estado
+ 
+  }, []);
+
   return (
     <Drawer
       variant="permanent"
@@ -59,16 +70,16 @@ export default function SideMenu() {
       >
         <Avatar
           sizes="small"
-          alt="Riley Carter"
+          alt={email || 'Usuario'}
           src="/static/images/avatar/7.jpg"
           sx={{ width: 36, height: 36 }}
         />
         <Box sx={{ mr: 'auto' }}>
           <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: '16px' }}>
-            Riley Carter
+          {email || 'Usuario'}
           </Typography>
           <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-            riley@email.com
+          {email || 'Usuario'}
           </Typography>
         </Box>
         <OptionsMenu />

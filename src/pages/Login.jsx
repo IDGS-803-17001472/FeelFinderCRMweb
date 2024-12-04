@@ -1,23 +1,25 @@
-
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
-import CssBaseline from '@mui/material/CssBaseline';
+
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Divider from '@mui/material/Divider';
+
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
-import Link from '@mui/material/Link';
+
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import ForgotPassword from './ForgotPassword';
-import { GoogleIcon, FacebookIcon, SitemarkIcon } from './CustomIcons';
+import { SitemarkIcon } from './CustomIcons';
 import AppTheme from '../shared-theme/AppTheme.jsx';
 import ColorModeSelect from '../shared-theme/ColorModeSelect';
 import { useState } from 'react';
+import AuthService from '../general/conexion/Auth_Service'; // Importa el servicio
+import { useNavigate } from 'react-router-dom';
+
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -60,38 +62,21 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
     }),
   },
 }));
-
-const Login =(props) => {
+const Login = (props) => {
   const [emailError, setEmailError] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState('');
   const [passwordError, setPasswordError] = useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
+  // Para mostrar que el login está en proceso
+  const [ setErrorMessage] = useState(''); // Para manejar mensajes de error generales
+  const navigate = useNavigate(); // Usar useNavigate
   const [open, setOpen] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
   const handleClose = () => {
     setOpen(false);
   };
-
-  const handleSubmit = (event) => {
-    if (emailError || passwordError) {
-      event.preventDefault();
-      return;
-    }
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
-
   const validateInputs = () => {
     const email = document.getElementById('email');
     const password = document.getElementById('password');
-
     let isValid = true;
 
     if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
@@ -113,6 +98,30 @@ const Login =(props) => {
     }
 
     return isValid;
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    // Validar los campos antes de enviar la solicitud
+    if (validateInputs()) {
+      
+      const data = new FormData(event.currentTarget);
+      const email = data.get('email');
+      const password = data.get('password');
+      
+      // Llamar al servicio de login
+      const response = await AuthService.login(email, password);
+
+    // Detener el indicador de carga
+
+      // Comprobar la respuesta del login
+      if (response === "Login exitoso!") {
+        navigate('/dashboard'); // Usar navigate en lugar de history.push
+      } else {
+        setErrorMessage(response); // Mostrar mensaje de error si el login falla
+      }
+    }
   };
 
   return (
@@ -140,7 +149,7 @@ const Login =(props) => {
             }}
           >
             <FormControl>
-              <FormLabel htmlFor="email">Email</FormLabel>
+              <FormLabel htmlFor="email" sx={{ color: '#fff' }}>Email</FormLabel>
               <TextField
                 error={emailError}
                 helperText={emailErrorMessage}
@@ -154,10 +163,12 @@ const Login =(props) => {
                 fullWidth
                 variant="outlined"
                 color={emailError ? 'error' : 'primary'}
+                InputLabelProps={{ style: { color: '#fff' } }}
+                InputProps={{ style: { color: '#fff' } }}
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="password">Contraseña</FormLabel>
+              <FormLabel htmlFor="password" sx={{ color: '#fff' }}>Contraseña</FormLabel>
               <TextField
                 error={passwordError}
                 helperText={passwordErrorMessage}
@@ -171,11 +182,13 @@ const Login =(props) => {
                 fullWidth
                 variant="outlined"
                 color={passwordError ? 'error' : 'primary'}
+                InputLabelProps={{ style: { color: '#fff' } }}
+                InputProps={{ style: { color: '#fff' } }}
               />
             </FormControl>
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
-              label="Recordar Credenciales"
+              label={<Typography sx={{ color: '#fff' }}>Recordar Credenciales</Typography>}
             />
             <ForgotPassword open={open} handleClose={handleClose} />
             <Button
@@ -183,6 +196,10 @@ const Login =(props) => {
               fullWidth
               variant="contained"
               onClick={validateInputs}
+              sx={{
+                backgroundColor: '#2575fc', // Color de fondo del botón
+                '&:hover': { backgroundColor: '#6a11cb' }, // Efecto hover
+              }}
             >
               Continuar
             </Button>
@@ -192,4 +209,5 @@ const Login =(props) => {
     </AppTheme>
   );
 }
-export default Login
+
+export default Login;
